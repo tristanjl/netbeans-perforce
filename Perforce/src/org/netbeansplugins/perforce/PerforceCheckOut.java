@@ -5,18 +5,12 @@
  */
 package org.netbeansplugins.perforce;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import org.openide.awt.*;
 import java.io.IOException;
-import java.util.List;
-import javax.swing.JOptionPane;
-import org.openide.awt.ActionID;
-import org.openide.awt.ActionReference;
-import org.openide.awt.ActionRegistration;
-import org.openide.awt.StatusDisplayer;
-import org.openide.filesystems.FileObject;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
+import org.openide.filesystems.FileObject;
 
 @ActionID(
         category = "Menu/Team/Perforce",
@@ -46,9 +40,16 @@ public final class PerforceCheckOut extends PerforceAction implements ActionList
         }
         catch (IOException ex)
         {
-            final String msg = "Perforce checkout error";
-            StatusDisplayer.getDefault().setStatusText(msg);
-            Exceptions.printStackTrace(ex);
+            try
+            {
+                Runtime.getRuntime().exec("/usr/local/bin/p4 " + perforceSpec + " edit " + fileobject.getPath());
+            }
+            catch (IOException innerEx)
+            {
+                final String msg = "Perforce checkout error";
+                StatusDisplayer.getDefault().setStatusText(msg);
+                Exceptions.printStackTrace(ex);
+            }
         }
     }
 }

@@ -5,18 +5,13 @@
  */
 package org.netbeansplugins.perforce;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.*;
+import java.util.regex.*;
+import org.openide.loaders.*;
+import java.io.*;
+import org.apache.commons.lang.SystemUtils;
 import org.openide.awt.StatusDisplayer;
 import org.openide.filesystems.FileObject;
-import org.openide.loaders.DataObject;
-import org.openide.loaders.DataShadow;
 import org.openide.util.Exceptions;
 import org.openide.windows.TopComponent;
 
@@ -57,7 +52,14 @@ public class PerforceAction
         }
         catch (IOException ex)
         {
-            return null;
+            try
+            {
+                proc = Runtime.getRuntime().exec("/usr/local/bin/p4 set");
+            }
+            catch (IOException innerEx)
+            {
+                return null;
+            }
         }
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
         
@@ -91,7 +93,14 @@ public class PerforceAction
         }
         catch (IOException ex)
         {
-            return null;
+            try
+            {
+                proc = Runtime.getRuntime().exec("/usr/local/bin/p4 info");
+            }
+            catch (IOException innerEx)
+            {
+                return null;
+            }
         }
         stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
         
@@ -137,32 +146,50 @@ public class PerforceAction
         }
         catch (IOException ex)
         {
-            return null;
+            try
+            {
+                proc = Runtime.getRuntime().exec("/usr/local/bin/p4 " + p4port + user + " workspaces" + user);
+            }
+            catch (IOException innerEx)
+            {
+                return null;
+            }
         }
         stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
         try
         {
+            boolean foundHostMatch = false;
             int greatestLength = 0;
             Pattern workspacePattern = Pattern.compile("[^\\s]+ ([^\\s]+) [^\\s]+ root ([^']+)'");
             while ((s = stdInput.readLine()) != null)
             {
+                boolean isHostMatch = false;
                 Matcher clientMatcher = workspacePattern.matcher(s);
                 if (clientMatcher.find())
                 {
                     String currentClient = clientMatcher.group(1);
                     if (!currentClient.toLowerCase().contains(host.toLowerCase()))
                     {
-                        continue;
+                        if (foundHostMatch)
+                            continue;
+                    }
+                    else
+                    {
+                        isHostMatch = true;
                     }
                     String checkingDirectory = clientMatcher.group(2).trim();
                     int currentLength = checkingDirectory.length();
-                    if (currentLength < greatestLength)
+                    if (currentLength < greatestLength && (!isHostMatch || foundHostMatch))
                     {
                         continue;
                     }
                     if (!currentFile.getPath().contains(checkingDirectory))
                     {
                         continue;
+                    }
+                    if (isHostMatch)
+                    {
+                        foundHostMatch = true;
                     }
                     greatestLength = currentLength;
                     workspace = " -c " + currentClient;
@@ -179,9 +206,27 @@ public class PerforceAction
     public void runP4VCommand(String command, FileObject currentFile)
     {
         String perforceSpec = getPerforceSpec(currentFile);
+        if (perforceSpec == null)
+        {
+            StatusDisplayer.getDefault().setStatusText("Unable to determine p4 workspace. Check p4 can be run from the command line.");
+            perforceSpec = "";
+        }
         try
         {
-            String processCmd = "/opt/p4/bin/p4v " + perforceSpec + " -cmd";
+            String executable;
+            if (SystemUtils.IS_OS_LINUX)
+            {
+                executable = "/opt/p4/bin/p4v ";
+            }
+            else if (SystemUtils.IS_OS_MAC)
+            {
+                executable = "/Applications/P4V.app/Contents/MacOS/p4v ";
+            }
+            else
+            {
+                executable = "p4v ";
+            }
+            String processCmd = executable + perforceSpec + " -cmd";
             List<String> processArgs = new ArrayList<>(Arrays.asList(processCmd.split(" ")));
             processArgs.add(command + " " + currentFile.getPath());
             ProcessBuilder builder = new ProcessBuilder(processArgs);

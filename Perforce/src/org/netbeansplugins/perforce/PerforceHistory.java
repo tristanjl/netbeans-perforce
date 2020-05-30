@@ -5,13 +5,10 @@
  */
 package org.netbeansplugins.perforce;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import org.openide.awt.ActionID;
-import org.openide.awt.ActionReference;
-import org.openide.awt.ActionRegistration;
-import org.openide.filesystems.FileObject;
+import java.awt.event.*;
+import org.openide.awt.*;
 import org.openide.util.NbBundle.Messages;
+import org.openide.filesystems.FileObject;
 
 @ActionID(
         category = "Menu/Team/Perforce",
