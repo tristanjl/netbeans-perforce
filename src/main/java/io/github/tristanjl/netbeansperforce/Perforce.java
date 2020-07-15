@@ -10,7 +10,6 @@ import javax.swing.*;
 import org.openide.awt.*;
 import org.openide.util.*;
 import java.util.List;
-import io.github.tristanjl.netbeansperforce.Bundle;
 import org.openide.util.NbBundle.Messages;
 import org.openide.util.actions.Presenter;
 
