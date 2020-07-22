@@ -13,7 +13,7 @@ import org.openide.filesystems.FileObject;
 import org.openide.util.NbBundle.Messages;
 
 @ActionID(
-        category = "Menu/Team/Perforce",
+        category = "Menu/Versioning/Perforce",
         id = "io.github.tristanjl.netbeansperforce.PerforceCheckOut"
 )
 @ActionRegistration(
@@ -36,20 +36,13 @@ public final class PerforceCheckOut extends PerforceAction implements ActionList
         String perforceSpec = getPerforceSpec(fileobject);
         try
         {
-            Runtime.getRuntime().exec("p4 " + perforceSpec + " edit " + fileobject.getPath());
+            Runtime.getRuntime().exec(getCurrentP4Path() + " " + perforceSpec + " edit " + fileobject.getPath());
         }
         catch (IOException ex)
         {
-            try
-            {
-                Runtime.getRuntime().exec("/usr/local/bin/p4 " + perforceSpec + " edit " + fileobject.getPath());
-            }
-            catch (IOException innerEx)
-            {
-                final String msg = "Perforce checkout error";
-                StatusDisplayer.getDefault().setStatusText(msg);
-                Exceptions.printStackTrace(ex);
-            }
+            final String msg = "Perforce checkout error";
+            StatusDisplayer.getDefault().setStatusText(msg);
+            Exceptions.printStackTrace(ex);
         }
     }
 }

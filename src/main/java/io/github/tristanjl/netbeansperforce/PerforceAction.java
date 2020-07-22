@@ -13,6 +13,7 @@ import org.apache.commons.lang3.SystemUtils;
 import org.openide.awt.StatusDisplayer;
 import org.openide.filesystems.FileObject;
 import org.openide.util.Exceptions;
+import org.openide.util.NbPreferences;
 import org.openide.windows.TopComponent;
 
 /**
@@ -21,6 +22,41 @@ import org.openide.windows.TopComponent;
  */
 public class PerforceAction
 {
+    public static String getDefaultP4Path()
+    {
+        if (SystemUtils.IS_OS_MAC)
+        {
+            return "/usr/local/bin/p4";
+        }
+        return "p4";
+    }
+    
+    public static String getCurrentP4Path()
+    {
+        return NbPreferences.forModule(Perforce.class).get("p4Path", getDefaultP4Path());
+    }
+    
+    public static String getDefaultP4VPath()
+    {
+        if (!SystemUtils.IS_OS_LINUX)
+        {
+            if (!SystemUtils.IS_OS_MAC)
+            {
+                return "p4v";
+            }
+            else
+            {
+                return "/Applications/P4V.app/Contents/MacOS/p4v";
+            }
+        }
+        return "/opt/p4/bin/p4v";
+    }
+    
+    public static String getCurrentP4VPath()
+    {
+        return NbPreferences.forModule(Perforce.class).get("p4vPath", getDefaultP4VPath());
+    }
+    
     public FileObject getFileObject()
     {
         DataObject dataObject = TopComponent.getRegistry().getActivated().getLookup().lookup(DataObject.class);
@@ -48,18 +84,11 @@ public class PerforceAction
         Process proc = null;
         try
         {
-            proc = Runtime.getRuntime().exec("p4 set");
+            proc = Runtime.getRuntime().exec(getCurrentP4Path() + " set");
         }
         catch (IOException ex)
         {
-            try
-            {
-                proc = Runtime.getRuntime().exec("/usr/local/bin/p4 set");
-            }
-            catch (IOException innerEx)
-            {
-                return null;
-            }
+            return null;
         }
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
         
@@ -89,18 +118,11 @@ public class PerforceAction
         
         try
         {
-            proc = Runtime.getRuntime().exec("p4 info");
+            proc = Runtime.getRuntime().exec(getCurrentP4Path() + " info");
         }
         catch (IOException ex)
         {
-            try
-            {
-                proc = Runtime.getRuntime().exec("/usr/local/bin/p4 info");
-            }
-            catch (IOException innerEx)
-            {
-                return null;
-            }
+            return null;
         }
         stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
         
@@ -142,18 +164,11 @@ public class PerforceAction
         
         try
         {
-            proc = Runtime.getRuntime().exec("p4 " + p4port + user + " workspaces" + user);
+            proc = Runtime.getRuntime().exec(getCurrentP4Path() + " " + p4port + user + " workspaces" + user);
         }
         catch (IOException ex)
         {
-            try
-            {
-                proc = Runtime.getRuntime().exec("/usr/local/bin/p4 " + p4port + user + " workspaces" + user);
-            }
-            catch (IOException innerEx)
-            {
-                return null;
-            }
+            return null;
         }
         stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
         try
@@ -213,23 +228,7 @@ public class PerforceAction
         }
         try
         {
-            String executable;
-            if (!SystemUtils.IS_OS_LINUX)
-            {
-                if (!SystemUtils.IS_OS_MAC)
-                {
-                    executable = "p4v ";
-                }
-                else
-                {
-                    executable = "/Applications/P4V.app/Contents/MacOS/p4v ";
-                }
-            }
-            else
-            {
-                executable = "/opt/p4/bin/p4v ";
-            }
-            String processCmd = executable + perforceSpec + " -cmd";
+            String processCmd = getCurrentP4VPath() + " " + perforceSpec + " -cmd";
             List<String> processArgs = new ArrayList<>(Arrays.asList(processCmd.split(" ")));
             processArgs.add(command + " " + currentFile.getPath());
             ProcessBuilder builder = new ProcessBuilder(processArgs);
