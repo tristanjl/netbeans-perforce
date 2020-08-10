@@ -8,10 +8,9 @@ This netbeans plugins adds a Perforce submenu and to your Teams menu and the fol
 * Time Lapse - Opens a time lapse view of the current file
 
 This plugin expects:
-* p4 to be accessible
+* p4  and p4v to be accessible. Locations can be configured via Options -> Team -> Perforce
 * p4port and p4user variables to be set via p4
-* p4v to be located in /opt/p4/bin/p4v
 
-It will automatically look up the correct workspace for the current file. Tested on Linux.
+It will automatically look up the correct workspace for the current file. Tested on Windows, Linux and OSX.
 
 If any additional functionality (such as cross platform support) is required, please create an issue so they can be added.
