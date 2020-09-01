@@ -53,7 +53,7 @@
               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="p4Label" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="p4vLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="p4vcLabel" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -63,12 +63,12 @@
                       <Component id="p4PathButton" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="p4vTextField" min="-2" pref="271" max="-2" attributes="0"/>
+                      <Component id="p4vcTextField" min="-2" pref="271" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="p4vPathButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="p4vcPathButton" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="103" max="32767" attributes="0"/>
+              <EmptySpace pref="96" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -83,9 +83,9 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="p4vLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="p4vTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="p4vPathButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="p4vcLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="p4vcTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="p4vcPathButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="152" max="32767" attributes="0"/>
           </Group>
@@ -100,10 +100,10 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="p4vLabel">
+    <Component class="javax.swing.JLabel" name="p4vcLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="io/github/tristanjl/netbeansperforce/Bundle.properties" key="PerforcePanel.p4vLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="io/github/tristanjl/netbeansperforce/Bundle.properties" key="PerforcePanel.p4vcLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
@@ -114,12 +114,15 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="p4vTextField">
+    <Component class="javax.swing.JFormattedTextField" name="p4vcTextField">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="io/github/tristanjl/netbeansperforce/Bundle.properties" key="PerforcePanel.p4vTextField.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="io/github/tristanjl/netbeansperforce/Bundle.properties" key="PerforcePanel.p4vcTextField.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="p4vcTextFieldActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="p4PathButton">
       <Properties>
@@ -131,14 +134,14 @@
         <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="p4PathButtonMouseReleased"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="p4vPathButton">
+    <Component class="javax.swing.JButton" name="p4vcPathButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="io/github/tristanjl/netbeansperforce/Bundle.properties" key="PerforcePanel.p4vPathButton.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="io/github/tristanjl/netbeansperforce/Bundle.properties" key="PerforcePanel.p4vcPathButton.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="p4vPathButtonMouseReleased"/>
+        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="p4vcPathButtonMouseReleased"/>
       </Events>
     </Component>
   </SubComponents>

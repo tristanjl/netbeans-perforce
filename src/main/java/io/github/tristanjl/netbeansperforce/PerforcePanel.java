@@ -48,22 +48,27 @@ final class PerforcePanel extends javax.swing.JPanel {
 
         fileChooser = new javax.swing.JFileChooser();
         p4Label = new javax.swing.JLabel();
-        p4vLabel = new javax.swing.JLabel();
+        p4vcLabel = new javax.swing.JLabel();
         p4TextField = new javax.swing.JFormattedTextField();
-        p4vTextField = new javax.swing.JFormattedTextField();
+        p4vcTextField = new javax.swing.JFormattedTextField();
         p4PathButton = new javax.swing.JButton();
-        p4vPathButton = new javax.swing.JButton();
+        p4vcPathButton = new javax.swing.JButton();
 
         fileChooser.setDialogTitle(org.openide.util.NbBundle.getMessage(PerforcePanel.class, "PerforcePanel.fileChooser.dialogTitle")); // NOI18N
         fileChooser.setFileFilter(new ExecutableFilter());
 
         org.openide.awt.Mnemonics.setLocalizedText(p4Label, org.openide.util.NbBundle.getMessage(PerforcePanel.class, "PerforcePanel.p4Label.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(p4vLabel, org.openide.util.NbBundle.getMessage(PerforcePanel.class, "PerforcePanel.p4vLabel.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(p4vcLabel, org.openide.util.NbBundle.getMessage(PerforcePanel.class, "PerforcePanel.p4vcLabel.text")); // NOI18N
 
         p4TextField.setText(org.openide.util.NbBundle.getMessage(PerforcePanel.class, "PerforcePanel.p4TextField.text")); // NOI18N
 
-        p4vTextField.setText(org.openide.util.NbBundle.getMessage(PerforcePanel.class, "PerforcePanel.p4vTextField.text")); // NOI18N
+        p4vcTextField.setText(org.openide.util.NbBundle.getMessage(PerforcePanel.class, "PerforcePanel.p4vcTextField.text")); // NOI18N
+        p4vcTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                p4vcTextFieldActionPerformed(evt);
+            }
+        });
 
         org.openide.awt.Mnemonics.setLocalizedText(p4PathButton, org.openide.util.NbBundle.getMessage(PerforcePanel.class, "PerforcePanel.p4PathButton.text")); // NOI18N
         p4PathButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -72,10 +77,10 @@ final class PerforcePanel extends javax.swing.JPanel {
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(p4vPathButton, org.openide.util.NbBundle.getMessage(PerforcePanel.class, "PerforcePanel.p4vPathButton.text")); // NOI18N
-        p4vPathButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        org.openide.awt.Mnemonics.setLocalizedText(p4vcPathButton, org.openide.util.NbBundle.getMessage(PerforcePanel.class, "PerforcePanel.p4vcPathButton.text")); // NOI18N
+        p4vcPathButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                p4vPathButtonMouseReleased(evt);
+                p4vcPathButtonMouseReleased(evt);
             }
         });
 
@@ -87,7 +92,7 @@ final class PerforcePanel extends javax.swing.JPanel {
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(p4Label)
-                    .addComponent(p4vLabel))
+                    .addComponent(p4vcLabel))
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -95,10 +100,10 @@ final class PerforcePanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(p4PathButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(p4vTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(p4vcTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(p4vPathButton)))
-                .addContainerGap(103, Short.MAX_VALUE))
+                        .addComponent(p4vcPathButton)))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,9 +115,9 @@ final class PerforcePanel extends javax.swing.JPanel {
                     .addComponent(p4PathButton))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(p4vLabel)
-                    .addComponent(p4vTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(p4vPathButton))
+                    .addComponent(p4vcLabel)
+                    .addComponent(p4vcTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(p4vcPathButton))
                 .addContainerGap(152, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -126,14 +131,18 @@ final class PerforcePanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_p4PathButtonMouseReleased
 
-    private void p4vPathButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p4vPathButtonMouseReleased
+    private void p4vcPathButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p4vcPathButtonMouseReleased
         int returnVal = fileChooser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION)
         {
             File file = fileChooser.getSelectedFile();
-            p4vTextField.setText(file.getAbsolutePath());
+            p4vcTextField.setText(file.getAbsolutePath());
         }
-    }//GEN-LAST:event_p4vPathButtonMouseReleased
+    }//GEN-LAST:event_p4vcPathButtonMouseReleased
+
+    private void p4vcTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_p4vcTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_p4vcTextFieldActionPerformed
 
     class ExecutableFilter extends javax.swing.filechooser.FileFilter
     {
@@ -153,13 +162,13 @@ final class PerforcePanel extends javax.swing.JPanel {
     void load()
     {
         p4TextField.setText(PerforceAction.getCurrentP4Path());
-        p4vTextField.setText(PerforceAction.getCurrentP4VPath());
+        p4vcTextField.setText(PerforceAction.getCurrentP4VCPath());
     }
 
     void store()
     {
         NbPreferences.forModule(Perforce.class).put("p4Path", p4TextField.getText());
-        NbPreferences.forModule(Perforce.class).put("p4vPath", p4vTextField.getText());
+        NbPreferences.forModule(Perforce.class).put("p4vcPath", p4vcTextField.getText());
     }
 
     boolean valid() {
@@ -172,8 +181,8 @@ final class PerforcePanel extends javax.swing.JPanel {
     private javax.swing.JLabel p4Label;
     private javax.swing.JButton p4PathButton;
     private javax.swing.JFormattedTextField p4TextField;
-    private javax.swing.JLabel p4vLabel;
-    private javax.swing.JButton p4vPathButton;
-    private javax.swing.JFormattedTextField p4vTextField;
+    private javax.swing.JLabel p4vcLabel;
+    private javax.swing.JButton p4vcPathButton;
+    private javax.swing.JFormattedTextField p4vcTextField;
     // End of variables declaration//GEN-END:variables
 }

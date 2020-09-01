@@ -36,25 +36,25 @@ public class PerforceAction
         return NbPreferences.forModule(Perforce.class).get("p4Path", getDefaultP4Path());
     }
     
-    public static String getDefaultP4VPath()
+    public static String getDefaultP4VCPath()
     {
         if (!SystemUtils.IS_OS_LINUX)
         {
             if (!SystemUtils.IS_OS_MAC)
             {
-                return "p4v";
+                return "p4vc";
             }
             else
             {
-                return "/Applications/P4V.app/Contents/MacOS/p4v";
+                return "/Applications/p4vc";
             }
         }
-        return "/opt/p4/bin/p4v";
+        return "/opt/p4/bin/p4vc";
     }
     
-    public static String getCurrentP4VPath()
+    public static String getCurrentP4VCPath()
     {
-        return NbPreferences.forModule(Perforce.class).get("p4vPath", getDefaultP4VPath());
+        return NbPreferences.forModule(Perforce.class).get("p4vcPath", getDefaultP4VCPath());
     }
     
     public FileObject getFileObject()
@@ -228,9 +228,10 @@ public class PerforceAction
         }
         try
         {
-            String processCmd = getCurrentP4VPath() + " " + perforceSpec + " -cmd";
+            String processCmd = getCurrentP4VCPath() + " " + perforceSpec + " ";
             List<String> processArgs = new ArrayList<>(Arrays.asList(processCmd.split(" ")));
-            processArgs.add(command + " " + currentFile.getPath());
+            processArgs.add(command);
+            processArgs.add(currentFile.getPath());
             ProcessBuilder builder = new ProcessBuilder(processArgs);
             Process process = builder.start();
         }
