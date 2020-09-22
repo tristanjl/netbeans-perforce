@@ -30,6 +30,6 @@ public final class PerforceDiff extends PerforceAction implements ActionListener
         {
             return;
         }
-        runP4VCommand("prevdiff", fileobject);
+        runP4VCommand("diffhave", fileobject);
     }
 }
