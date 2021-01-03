@@ -19,7 +19,7 @@
     <scm>
         <connection>scm:git:https://github.com/tristanjl/netbeans-perforce.git</connection>
         <developerConnection>scm:git:https://github.com/tristanjl/netbeans-perforce.git</developerConnection>
-        <url>https://github.com/project-url/tree/main</url>
+        <url>https://github.com/tristanjl/netbeans-perforce/tree/main</url>
         <tag>main</tag>
     </scm>
     <licenses>
