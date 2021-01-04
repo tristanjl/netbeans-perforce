@@ -1,6 +1,6 @@
 # Netbeans perforce Plugin
 
-This netbeans plugins adds a Perforce submenu and to your Teams menu and the following 4 commands:
+This netbeans plugin adds a Perforce submenu and to your Teams menu along with the following 4 commands:
 
 * Check Out - checks out the current file
 * Diff - Diffs the current file against the head revision
